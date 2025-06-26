@@ -1,15 +1,22 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
+/client/node_modules/
+/backend/venv/
+/backend/env/
+/client/env/
 /.pnp
 .pnp.js
 
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
 # testing
-/coverage
+/client/coverage
 
 # production
-/build
+/client/build
+/backend/dist
 
 # misc
 .DS_Store
