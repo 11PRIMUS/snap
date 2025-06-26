@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import razorpay
 import uuid
 import os
+from supabase_client import get_supabase
 
 app = FastAPI()
 
@@ -13,6 +14,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+supabase =get_supabase()
 
 razorpay_client = razorpay.Client(
     auth=(os.getenv("RAZORPAY_KEY"), os.getenv("RAZORPAY_SECRET"))
