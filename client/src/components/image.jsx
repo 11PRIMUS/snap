@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 
-function UploadImage(){
+function ImageUpload(){
     const [file, setFile] = useState(null);
     const [polaroidUrl, setPolariodUrl] = useState('');
     const polaroidRef = serRef(null);
@@ -35,7 +35,7 @@ function UploadImage(){
             {polaroidUrl && (
                 <>
                     <button onClick={()=> downloadImage(polaroidUrl)}>Download</button>
-                    <button onClick={() => NavigationHistoryEntry('checkout')}> Orger Now </button>
+                    <button onClick={() => NavigationHistoryEntry('checkout')}> Order Now </button>
                 </>
             )}
         </div>
