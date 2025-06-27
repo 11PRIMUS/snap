@@ -4,6 +4,7 @@
 /client/env/
 /.pnp
 .pnp.js
+backend/.env
 
 __pycache__/
 *.py[cod]
