@@ -1,10 +1,21 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 import razorpay
 import uuid
 import os
-from supabase_client import get_supabase
+from dotenv import load_dotenv
+from supabase import create_client
+
+
+load_dotenv()
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+RAZORPAY_KEY = os.getenv("RAZORPAY_KEY")
+RAZORPAY_SECRET = os.getenv("RAZORPAY_SECRET")
+
+supabase= create_client(SUPABASE_URL, SUPABASE_KEY)
+razorpay_client= razorpay.Client(auth=(RAZORPAY_KEY, RAZORPAY_SECRET))
 
 app = FastAPI()
 
@@ -16,12 +27,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-supabase =get_supabase()
+@app.get("/")
+async def h_check():
+    return JSONResponse(content={"status":"active", "message":"polaroid api"})
 
-razorpay_client = razorpay.Client(
-    auth=(os.getenv("RAZORPAY_KEY"), os.getenv("RAZORPAY_SECRET"))
-)
-
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("favicon.ico")
 @app.post("/upload")
 async def upload_image(file: UploadFile =File(...)):
     file_ext = file.filename.split('.')[-1]
@@ -45,7 +57,7 @@ async def create_order(amount:float):
 
     })
 
-    return {"order_id":order["id"]}
+    return {"order_id":order["id"],"amount": order["order"]}
 
 @app.get("/download/{imagee_id}")
 async def download_image(image_id:str):
