@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 import razorpay
 import uuid
 import os
@@ -45,3 +46,10 @@ async def create_order(amount:float):
     })
 
     return {"order_id":order["id"]}
+
+@app.get("/download/{imagee_id}")
+async def download_image(image_id:str):
+    file_path =f"polaroids/{image_id}.png"
+    if not os.path.exists(file_path):
+        raise HTTPException(404, "iamge not found")
+    return FileResponse(file_path, filename=f"polaroid_{image_id}.png")
