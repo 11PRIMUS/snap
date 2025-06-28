@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import UploadImage from './components/image';
+import ImageUpload from './components/image';
 import Checkout from './components/checkout';
 
 function App() {
