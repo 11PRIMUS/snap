@@ -37,7 +37,7 @@ async def favicon():
 @app.post("/upload")
 async def upload_image(file: UploadFile =File(...)):
     file_ext = file.filename.split('.')[-1]
-    filename = f"{uuid.uuid()}.{file_ext}"
+    filename = f"{uuid.uuid4()}.{file_ext}"
     file_bytes = await file.read()
 
     #to supabase
@@ -57,9 +57,9 @@ async def create_order(amount:float):
 
     })
 
-    return {"order_id":order["id"],"amount": order["order"]}
+    return {"order_id":order["id"],"amount": order["amount"]}
 
-@app.get("/download/{imagee_id}")
+@app.get("/download/{image_id}")
 async def download_image(image_id:str):
     file_path =f"polaroids/{image_id}.png"
     if not os.path.exists(file_path):
